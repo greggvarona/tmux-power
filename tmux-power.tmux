@@ -34,6 +34,8 @@ show_session="$(tmux_get @tmux_power_show_session true)"
 show_upload_speed="$(tmux_get @tmux_power_show_upload_speed false)"
 show_download_speed="$(tmux_get @tmux_power_show_download_speed false)"
 show_web_reachable="$(tmux_get @tmux_power_show_web_reachable false)"
+show_battery="$(tmux_get @tmux_power_show_battery false)"
+battery_icon="$(tmux_get '@tmux_power_battery_icon' '🔋')"
 prefix_highlight_pos=$(tmux_get @tmux_power_prefix_highlight_pos)
 time_format=$(tmux_get @tmux_power_time_format '%T')
 date_format=$(tmux_get @tmux_power_date_format '%F')
@@ -125,6 +127,9 @@ tmux_set status-left "$LS"
 tmux_set status-right-bg "$G0"
 tmux_set status-right-length 150
 RS="#[fg=$G2]$larrow#[fg=$TC,bg=$G2] $time_icon $time_format #[fg=$TC,bg=$G2]$larrow#[fg=$G0,bg=$TC] $date_icon $date_format "
+if "$show_battery"; then
+    RS="#[fg=$G1,bg=$G0]$larrow#[fg=$TC,bg=$G1] $battery_icon #{battery_percentage} $RS"
+fi
 if "$show_download_speed"; then
     RS="#[fg=$G1,bg=$G0]$larrow#[fg=$TC,bg=$G1] $download_speed_icon #{download_speed} $RS"
 fi
